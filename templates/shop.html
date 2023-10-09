@@ -1,0 +1,284 @@
+{% extends "index_base.html" %}
+{% block title %} || Productos{% endblock %}
+{% block main %}
+<section style="padding-top: 7rem;">
+	<div class="bg-holder" style="background-image:url(static/assets/img/hero/hero-bg.svg);">
+	</div>
+	<!--/.bg-holder-->
+
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-5 col-lg-6 order-0 order-md-1 text-end"><img class="pt-7 pt-md-0 hero-img"
+					src="/static/img/2.png" alt="hero-header" /></div>
+			<div class="col-md-7 col-lg-6 text-md-start text-center py-6">
+				<h1 class="hero-title">Plasma tu idea</h1>
+
+				<p class="mb-4 fw-medium">Con nosotros</p>
+				<div class="text-center text-md-start">
+					{% if 'cliente_foto' in session %}
+					<a class="btn btn-primary btn-lg me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow"
+						id="openDialogButton">Pedido Personalizado</a>
+					{% else %}
+					<a class="btn btn-primary btn-lg me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow"
+						href="/login">Login</a>
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<div class="container">
+	<div class="row">
+		<h2>Recomendaciones</h2>
+		{% for producto in recomendaciones %}
+
+		<div class="col-md-2">
+			<div class="card" style="height: 15rem;">
+				<img src="{{producto.logo}}" class="d-block w-100" alt="...">
+				<div class="card-body">
+
+					<h5 class="card-title">{{producto.nombre}}</h5>
+					<form action="/agregar" method="post" class="card-text">
+						<input type="text" value="{{ producto.id }}" name="producto_id_{{ producto.id }}" hidden>
+						<input type="text" name="cantidad_{{ producto.id }}" value="1" hidden>
+						<button type="submit" class="btn btn-success"> Agregar <i
+							class="fas fa-shopping-cart"></i></a>
+					</form>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
+</div><!-- end of .container-->
+
+<section class="container-fluid  my-4">
+	<div class="mb-7 text-center">
+		<h5 class="text-secondary">Descrubre</h5>
+		<h3 class="fs-xl-10 fs-lg-8 fs-7 fw-bold font-cursive text-capitalize">Nuestro productos</h3>
+	</div>
+	<div class="container my-4">
+		<div class="row">
+			<!-- Columna de filtros -->
+			<div class="col-md-3">
+				<article class="row">
+					<div class="col-md-12 my-4">
+						<div class="card h-100">
+							<div class="card-body">
+								<h5 class="card-title">Filtros</h5>
+								<!-- Categorías -->
+								<form action="/shop" method="GET">
+									<div class="form-group">
+										<label for="categoria">Categoría:</label>
+										<select class="form-select " id="categoria" name="categoria">
+											<option value="">ALL</option>
+											{% for categoria_id, categoria_data in categorias.items() %}
+											<optgroup label="{{ categoria_data.nombre }}">
+												{% for subcategoria in categoria_data.subcategorias %}
+												<option value="{{ subcategoria.id }}">{{ subcategoria.nombre }}</option>
+												{% endfor %}
+											</optgroup>
+											{% endfor %}
+										</select>
+									</div>
+
+									<!-- Rango de Precios -->
+									<div class="form-group">
+										<label for="precio_min">Precio mínimo:</label>
+										<input type="number" class="form-control" id="precio_min" name="precio_min"
+											min="0">
+									</div>
+
+									<div class="form-group">
+										<label for="precio_max">Precio máximo:</label>
+										<input type="number" class="form-control" id="precio_max" name="precio_max"
+											min="0">
+									</div>
+
+
+
+									<!-- Botón para aplicar filtros -->
+									<button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</article>
+			</div>
+
+			<!-- Lista de Productos -->
+			<div class="col-md-9">
+				<div class="row">
+					{% for producto in Precios %}
+					<div class="col-md-4 my-4">
+						<form action="/agregar" method="post">
+							<div class="shadow">
+								<div class="card h-100" style="max-width: 15rem; background: white;">
+									<img class="card-img-top" src="{{producto.producto.logo}}"
+										alt="{{producto.producto.nombre}}" class="img-fluid" />
+									<div class="card-body">
+
+										<h5 class="card-title">{{producto.producto.nombre}}</h5>
+
+										<span class="card-text">Precio: C$ {{producto.precio_actual}}</span>
+
+
+										<input type="text" value="{{ producto.producto.id }}"
+											name="producto_id_{{ producto.producto.id }}" hidden>
+										<input type="text" name="cantidad_{{ producto.id }}" value="1" hidden>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer shadow" style="background: white;">
+								<!-- Botón y campos ocultos aquí -->
+								<div class="d-flex justify-content-between align-items-center">
+									<a href="/vermas/{{producto.id}}" class="btn btn-sm btn-info">Ver más <i
+											class="fas fa-info-circle"></i></a>
+									<button class="btn btn-sm btn-success" type="submit"
+										data-id="{{ producto.producto.id }}">Agregar al <i
+											class="fas fa-shopping-cart"></i></button>
+								</div>
+							</div>
+						</form>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 align-content-center">
+			<div class="col-md-12 align-content-center">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						{% if Precios.has_prev %}
+						<li class="page-item">
+							<a class="page-link" href="{{ url_for('shop', page=Precios.prev_num) }}">
+								Previo</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<span class="page-link">Previo</span>
+						</li>
+						{% endif %}
+
+						{% for num in Precios.iter_pages() %}
+						{% if num %}
+						{% if num == Precios.page %}
+						<li class="page-item active">
+							<span class="page-link">{{ num }}</span>
+						</li>
+						{% else %}
+						<li class="page-item">
+							<a class="page-link" href="{{ url_for('shop', page=num) }}">{{ num }}</a>
+						</li>
+						{% endif %}
+						{% else %}
+						<li class="page-item disabled">
+							<span class="page-link">Previo</span>
+						</li>
+						{% endif %}
+						{% endfor %}
+
+						{% if Precios.has_next %}
+						<li class="page-item">
+							<a class="page-link" href="{{ url_for('shop', page=Precios.next_num) }}">Siguiente</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<span class="page-link">Siguiente</span>
+						</li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+
+		</div>
+	</div>
+
+</section>
+
+
+<script>
+
+	document.getElementById('openDialogButton').addEventListener('click', async function () {
+		const steps = ['1', '2', '3'];
+		const swalQueueStep = Swal.mixin({
+			confirmButtonText: 'Continuar',
+			cancelButtonText: 'Atras',
+			progressSteps: steps,
+			input: 'text',
+			inputAttributes: {
+				required: true
+			},
+			reverseButtons: true,
+			validationMessage: 'Este campo son requeridos'
+		});
+
+		const values = [];
+		let currentStep;
+
+		for (currentStep = 0; currentStep < steps.length;) {
+			let inputType = 'text';
+			let inputText = '';
+
+			if (currentStep === 0) {
+				inputType = 'textarea';
+				inputText = 'Describe tu pedido';
+			} else if (currentStep === 1) {
+				inputType = 'number';
+				inputText = 'Ingresa tu presupuesto';
+			} else if (currentStep === 2) {
+				inputType = 'file';
+				inputText = 'Sube tus fotos de inspiración(* Obligatorio *)';
+			}
+
+			const result = await swalQueueStep.fire({
+				title: `Pregunta ${steps[currentStep]}`,
+				text: inputText,
+				input: inputType,
+				inputValue: values[currentStep],
+				showCancelButton: currentStep > 0,
+				currentProgressStep: currentStep
+			});
+
+			if (result.value) {
+				values[currentStep] = result.value;
+				currentStep++;
+			} else if (result.dismiss === Swal.DismissReason.cancel) {
+				currentStep--;
+			} else {
+				break;
+			}
+		}
+
+		if (currentStep === steps.length) {
+			const formData = new FormData();
+			formData.append('cliente_id', '{{ session["cliente_id"] }}');
+			formData.append('descripcion', values[0]);
+			formData.append('presupuesto', values[1]);
+			formData.append('foto', values[2]);
+
+			fetch('/personalizacion', {
+				method: 'POST',
+				body: formData
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					Swal.fire('Success', 'Los datos han sido enviados correctamente', 'success');
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					Swal.fire('Error', 'Ocurrió un error al enviar los datos', 'error');
+				});
+		}
+	});
+</script>
+
+{% endblock %}

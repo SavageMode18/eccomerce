@@ -1,0 +1,356 @@
+{% extends "index_base.html" %}
+{% block title %} || Perfil{% endblock %}
+
+{% block main %}
+<section style="padding-top: 7rem;">
+    <div class="bg-holder">
+    </div>
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="{{ cliente.foto }}" alt="avatar" class="rounded-circle img-fluid"
+                            style="width: 150px;">
+                        <h5 class="my-3">{{persona.nombre}}</h5>
+                        <p class="text-dark mb-4">{{persona.direccion}}</p>
+                        <div class="d-flex justify-content-center mb-2">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                class="btn btn-outline-primary ms-1">Actualizar</button>
+                            <button type="button" class="btn btn-outline-primary ms-1" data-bs-toggle="modal"
+                                data-bs-target="#exampleModales">Cambiar contraseña</button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar informacion
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <Form action="/actualizar_clientes/{{cliente.id}}" method="post"
+                                            enctype="multipart/form-data">
+                                            <div class="modal-body">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Nombre: </label>
+                                                            <input type="text" name="nombre" class="form-control"
+                                                                value="{{persona.nombre}}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label>Apellido: </label>
+                                                            <input type="text" name="apellido" class="form-control"
+                                                                value="{{persona_natural.apellido}}" required>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Cedula: </label>
+                                                            <input type="text" name="cedula" class="form-control"
+                                                                value="{{persona_natural.cedula}}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Fecha de nacimiento:
+                                                            </label>
+                                                            <input type="date" name="fecha_nacimiento"
+                                                                class="form-control"
+                                                                value="{{persona_natural.fecha_nacimiento}}" required>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Celular:</label>
+                                                            <input type="text" name="celular" class="form-control"
+                                                                value="{{persona.celular}}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Genero</label>
+                                                            <select name="genero" id class="form-control">
+                                                                <option value="F" {% if persona_natural.genero=="F"
+                                                                    %}selected{% endif %}>Femenino</option>
+                                                                <option value="M" {% if persona_natural.genero=="M"
+                                                                    %}selected{% endif %}>Masculino</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label>Direccion: </label>
+                                                            <textarea name="direccion" class="form-control"
+                                                                required>{{persona.direccion}}</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label>Foto</label>
+
+                                                            <input type="file" name="foto" class="form-control"
+                                                                required>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-success">Guardar
+                                                    Actualizacion</button>
+                                            </div>
+                                        </Form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="exampleModales" tabindex="-1"
+                                aria-labelledby="exampleModalLabeles" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Contraseña
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <Form action="/cambiar_contraseñas" method="post" enctype="multipart/form-data">
+                                            <div class="modal-body">
+
+                                                <div class="row">
+                                                    <input type="text" name="id" value="{{session['cliente_usuario']}}"
+                                                        hidden>
+                                                    <input type="text" name="id_cliente" value="{{cliente.id}}" hidden>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Contraseña actual: </label>
+                                                            <input type="text" name="contraseña_actual"
+                                                                class="form-control" value="" required>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Nueva contraseña: </label>
+                                                            <input type="text" name="contraseña_nueva"
+                                                                class="form-control" value="" required>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Confirmar contraseña: </label>
+                                                            <input type="text" name="confirmacion" class="form-control"
+                                                                value="" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-success">Actualizar
+                                                    contraseña</button>
+                                            </div>
+                                        </Form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Informacion Principal</h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="mb-0">Nombre</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="text-dark mb-0">{{persona.nombre}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="mb-0">Correo</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="text-dark mb-0">{{persona.correo}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="mb-0">Telefono || Celular </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="text-dark mb-0">{{persona.celular}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="mb-0">Direccion</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="text-dark mb-0">{{persona.direccion}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                {% if persona_natural %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Informacion Complementaria</h3>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p class="mb-0">Apellido:</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-dark mb-0"> {{ persona_natural.apellido }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p class="mb-0">Cedula:</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-dark mb-0"> {{ persona_natural.cedula }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p class="mb-0">Fecha de nacimiento:</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-dark mb-0"> {{ persona_natural.fecha_nacimiento}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p class="mb-0">Genero</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-dark mb-0"> {{ persona_natural.genero }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Informacion Complementaria</h3>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p class="mb-0">Razon social:</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-dark mb-0"> {{ persona_juridica.razon_social }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p class="mb-0">Numero ruc:</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-dark mb-0"> {{ persona_juridica.ruc }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p class="mb-0">Fecha constitucional </p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-dark mb-0"> {{ persona_juridica.fecha_constitucional }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<hr>
+<section class="pt-5 pt-md-9">
+    <div class="container">
+		<div class="row align-items-center">
+            <h3>Lista de conexiones activas</h3>
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Numero</th>
+                        <th>IP</th>
+                        <th>Navegador</th>
+                        <th>Version del navegador</th>
+                        <th>Sistema opertativo</th>
+                        <th>Version del sistema operativo</th>
+                        <th>Estado</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for productos in conexion %}
+                    <tr>
+                        <th>{{loop.index}}</th>
+                      
+                      <th>{{productos.ip}}</th>
+                      <th>{{productos.navegador}}
+                      </th>
+                      <th>{{productos.version_navegador}}</th>
+                      <th>{{productos.os}}</th>
+                      <th>{{productos.version_os}}</th>
+
+
+
+                        <td>
+                            {% if productos.estado == 1 %}
+                            <span class="badge bg-danger">Activo</span>
+
+                            {% endif %}
+                        </td>
+                        <td>
+
+                            <a href="/logout/{{productos.id}}" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                              
+                            </a>
+                          
+                           
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+		</div>
+	</div>
+</section>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends "index_base.html" %}
+{% block title %} || Carrito{% endblock %}
+
+{% block main %}
+
+<section style="padding-top: 7rem;">
+    <div class="bg-holder">
+    </div>
+    <div class="container ">
+        <div class="row">
+
+            <article class="col-md-6">
+                <div class="card shadow-sm border">
+                    <div class="p-4">
+                        <h5 class="card-title mb-3">Informacion de compra</h5>
+                        <form action="/guardar_venta" method="post" enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3">
+                                    <!-- Default checked radio -->
+                                    <div class="form-check h-100 border rounded-3">
+                                        <div class="p-3">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault1" value="Correo" />
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Por correo<br />
+                                                <small class="text-muted">2-10 dias por correo</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <!-- Default radio -->
+                                    <div class="form-check h-100 border rounded-3">
+                                        <div class="p-3">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault2" value="Casimiro Sotelo"/>
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                Casimiro Sotelo <br />
+                                                <small class="text-muted">5-7 dias para la entrega </small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <!-- Default radio -->
+                                    <div class="form-check h-100 border rounded-3">
+                                        <div class="p-3">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault2" value="UNI RUSB" />
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                UNI RUSB <br />
+                                                <small class="text-muted">5-7 dias para la entrega </small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <!-- Default radio -->
+                                    <div class="form-check h-100 border rounded-3">
+                                        <div class="p-3">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault2" value="Masaya"/>
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                MASAYA <br />
+                                                <small class="text-muted">5-7 dias para la entrega </small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <!-- Default radio -->
+                                    <div class="form-check h-100 border rounded-3">
+                                        <div class="p-3">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault2" value="Metrocentro"/>
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                Metrocentro <br />
+                                                <small class="text-muted">5-7 dias para la entrega </small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" id="mostrar" style="display: none;">
+                                <div class="col-md-12 mb-3 ">
+                                    <p class="mb-0">Direccion</p>
+                                    <div class="form-outline">
+                                        <textarea name="direccion" id="direccion" cols="30" rows="5"
+                                            class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" name="total" value="{{total_carrito}}" hidden>
+
+
+
+
+                            <div class="float-end">
+                                <button class="btn btn-light border">Cancel</button>
+                                <button type="submit" class="btn btn-success shadow-0 border">Pagar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- Checkout -->
+
+
+            </article>
+
+            <div class="col-xl-6 col-lg-4">
+                <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
+
+                    <h6 class="text-dark my-4">Productos</h6>
+                    {% for item in carrito %}
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
+                                {{ item.nombre }}
+                            </span>
+                            <img src="{{ item.logo }}" style="height: 96px; width: 96x;"
+                                class="img-sm rounded border" />
+                        </div>
+                        <div class="">
+                            <a class="nav-link">
+                                {{ item.nombre }}
+                            </a>
+                            <div class="price text-muted">Precio del producto: C$ {{ item.precio}}</div>
+                            <div class="price text-muted">Subtotal: C$ {{ item.precio * item.cantidad }}</div>
+                        </div>
+                        <div class="">
+                            <a href="/eliminar/{{ item.id }}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+
+                    <h6 class="mb-3">Sumatoria</h6>
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Total de la compra:</p>
+                        <p class="mb-2 fw-bold">C${{total_carrito}}</p>
+                    </div>
+
+                    <div class="input-group mt-3 mb-4">
+                        <input type="text" class="form-control border" name="" placeholder="Promo code" />
+                        <button class="btn btn-light text-primary border">Aplicar</button>
+                    </div>
+
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    const radioButtons = document.getElementsByName('flexRadioDefault');
+    const divMostrar = document.getElementById('mostrar');
+
+    radioButtons.forEach(radioButton => {
+        radioButton.addEventListener('change', () => {
+            if (radioButton.id === 'flexRadioDefault1' && radioButton.checked) {
+                divMostrar.style.display = 'block';
+            } else {
+                divMostrar.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block title %} || Dasboard{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/jqvmap/jqvmap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}">
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/daterangepicker/daterangepicker.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/summernote/summernote-bs4.min.css') }}">
+
+{% endblock %}
+{% block main %}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Estadisticas</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                    <li class="breadcrumb-item active">Estadisticas</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{cantidad_pedidos}}</h3>
+
+                        <p>Nuevos pedidos</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{cantidad_ventas}}</h3>
+
+                        <p>Nuevas ventas</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{cantidad_totales}}</h3>
+
+                        <p>Ventas totales</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box badge-primary">
+                    <div class="inner">
+                        <h3>{{numero_usuarios}}</h3>
+
+                        <p>Total de clientes</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <div class="row">
+            <!-- Left col -->
+            <section class="col-lg-6">
+                <!-- Custom tabs (Charts with tabs)-->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-pie mr-1"></i>
+                            Ventas
+                        </h3>
+
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <img src="data:image/png;base64,{{ grafica }}" alt="" class="img-fluid">
+                    </div><!-- /.card-body -->
+                </div>
+            </section>
+            <!-- /.direct-chat-pane -->
+            <section class="col-lg-6">
+
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Descripción general de la tienda </h3>
+                        <div class="card-tools">
+                            <a href="#" class="btn btn-sm btn-tool">
+                                <i class="fas fa-download"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-tool">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                            <p class="text-success text-xl">
+                                <i class="ion ion-ios-refresh-empty"></i>
+                            </p>
+                            <p class="d-flex flex-column text-right">
+                                <span class="font-weight-bold">
+                                    <i class="ion ion-android-arrow-up text-success"></i> {{tasa_conversion}}%
+                                </span>
+                                <span class="text-muted">Tasa de conversión</span>
+                            </p>
+                        </div>
+                        <!-- /.d-flex -->
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                            <p class="text-warning text-xl">
+                                <i class="ion ion-ios-cart-outline"></i>
+                            </p>
+                            <p class="d-flex flex-column text-right">
+                                <span class="font-weight-bold">
+                                    <i class="ion ion-android-arrow-up text-success"></i> {{tasa_venta}}%
+                                </span>
+                                <span class="text-muted">Tasa de venta</span>
+                            </p>
+                        </div>
+                        <!-- /.d-flex -->
+                        <div class="d-flex justify-content-between align-items-center mb-0">
+                            <p class="text-danger text-xl">
+                                <i class="ion ion-ios-people-outline"></i>
+                            </p>
+                            <p class="d-flex flex-column text-right">
+                                <span class="font-weight-bold">
+                                    <i class="ion ion-android-arrow-down text-danger"></i>{{tasa_anulada}}%
+                                </span>
+                                <span class="text-muted">Tasa ventas perdidas</span>
+                            </p>
+                        </div>
+                        <!-- /.d-flex -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<section class="col-lg-5">
+
+
+    <!-- /.card -->
+</section>
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+
+
+{% endblock %}

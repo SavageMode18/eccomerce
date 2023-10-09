@@ -1,0 +1,10 @@
+# Ignorar archivos generados por Flask y Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+flask_session/
+.vscode/
+env/
+comentarios.txt
